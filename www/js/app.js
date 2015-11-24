@@ -43,6 +43,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ionic.utils'])
     }
   })
 
+  .state('app.files', {
+    url: '/files',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/files.html',
+        controller: 'FilesCtrl'
+      }
+    }
+  })
+
   .state('app.grades', {
     url: '/grades',
     views: {

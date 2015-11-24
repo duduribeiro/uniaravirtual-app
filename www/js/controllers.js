@@ -20,6 +20,42 @@ angular.module('starter.controllers', [])
   }
 })
 
+//TODO we will refactor to move all this token check to a specific method.. wait for it.....
+.controller('FilesCtrl', function($scope, $http, $localstorage, $state) {
+  $scope.$on('$ionicView.enter', function(e) {
+    if ($localstorage.getObject('token').expires > Date.now()) {
+      //if ($localstorage.get('files') == undefined) {
+        $http.get('https://uniara-virtual-api.herokuapp.com/files', { headers: { 'Authorization': $localstorage.getObject('token').value } }).then(function(resp) {
+          console.log(resp.data);
+          $localstorage.setObject('files', resp.data);
+          $scope.files = resp.data
+        });
+      //}
+      $scope.files = $localstorage.getObject('files');
+    } else {
+      $localstorage.remove('token');
+      $localstorage.remove('profile');
+      alert('Sua sessão expirou. Por favor faça login novamente.');
+      $state.go("app.login");
+    }
+  });
+
+  $scope.toggleFile = function(file) {
+  if ($scope.isFileShown(file)) {
+    $scope.shownFile = null;
+  } else {
+    $scope.shownFile = file;
+  }
+  };
+  $scope.isFileShown = function(file) {
+    return $scope.shownFile === file;
+  };
+
+  $scope.openFile = function(link) {
+    console.log(link);
+  }
+})
+
 .controller('GradesCtrl', function($scope, $localstorage, $state) {
 
   $scope.$on('$ionicView.enter', function(e) {
