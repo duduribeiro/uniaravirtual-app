@@ -21,6 +21,15 @@
         },
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.uniaravirtualapp348425"
+        },
+        "cordova-plugin-file-transfer": {
+            "PACKAGE_NAME": "me.thiagosydow.uniaravirtualapp"
+        },
+        "cordova-plugin-file": {
+            "PACKAGE_NAME": "me.thiagosydow.uniaravirtualapp"
+        },
+        "cordova-plugin-file-opener2": {
+            "PACKAGE_NAME": "me.thiagosydow.uniaravirtualapp"
         }
     },
     "dependent_plugins": {}

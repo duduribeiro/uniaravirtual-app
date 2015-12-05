@@ -21,7 +21,8 @@ angular.module('starter.controllers', [])
 })
 
 //TODO we will refactor to move all this token check to a specific method.. wait for it.....
-.controller('FilesCtrl', function($scope, $http, $localstorage, $state) {
+.controller('FilesCtrl', function($scope, $http, $localstorage, $state, $cordovaFileTransfer, $cordovaFileOpener2) {
+
   $scope.$on('$ionicView.enter', function(e) {
     if ($localstorage.getObject('token').expires > Date.now()) {
       //if ($localstorage.get('files') == undefined) {
@@ -51,8 +52,36 @@ angular.module('starter.controllers', [])
     return $scope.shownFile === file;
   };
 
-  $scope.openFile = function(link) {
+  $scope.downloadFile = function(link) {
     console.log(link);
+    var url = "https://uniara-virtual-api.herokuapp.com/" + link;
+    var filename = url.split("/").pop();
+    var targetPath = cordova.file.documentsDirectory + filename
+    var trustHosts = true
+    var options = {
+      headers: {Authorization: $localstorage.getObject('token').value}
+    };
+    $cordovaFileTransfer.download(url, targetPath, options, trustHosts)
+      .then(function(result) {
+        // Success!
+        alert(JSON.stringify(result));
+        file_path = result.nativeURL
+        $cordovaFileOpener2.open(
+          file_path,
+          ''
+        ).then(function() {
+            // Success!
+        }, function(err) {
+            // An error occurred. Show a message to the user
+        });
+      }, function(error) {
+        // Error
+        alert(JSON.stringify(error));
+      }, function (progress) {
+        $timeout(function () {
+          $scope.downloadProgress = (progress.loaded / progress.total) * 100;
+        })
+      });
   }
 })
 

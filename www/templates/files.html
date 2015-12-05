@@ -5,7 +5,7 @@
         <ion-item class="item-stable" ng-click="toggleFile(idx)" ng-class="{active: isFileShown(idx)}">
           <i class="icon" ng-class="isFileShown(idx) ? 'ion-minus' : 'ion-plus'"> {{file.grade}}</i>
         </ion-item>
-        <ion-item class="item-accordion" ng-repeat="item in file.files" ng-show="isFileShown(idx)" ng-click="openFile(item.link)">
+        <ion-item class="item-accordion" ng-repeat="item in file.files" ng-show="isFileShown(idx)" ng-click="downloadFile(item.link)">
           {{item.name}}
         </ion-item>
       </div>
